@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML实验三 - 网页制作</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #0066cc, #0099ff);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .website-url {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            border-left: 5px solid #0066cc;
+        }
+        
+        .url-box {
+            font-size: 1.2em;
+            color: #0066cc;
+            font-weight: bold;
+            word-break: break-all;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .task-card {
+            background: white;
+            border: 1px solid #e1e4e8;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,102,204,0.1);
+            border-color: #0066cc;
+        }
+        
+        .task-card h3 {
+            color: #0066cc;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .task-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .task-link {
+            display: inline-block;
+            background: #0066cc;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .task-link:hover {
+            background: #0052a3;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            border-top: 1px solid #e1e4e8;
+        }
+        
+        @media (max-width: 768px) {
+            .tasks-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HTML实验三 - 网页制作基础</h1>
+            <p>使用HTML语言编写网页 - 完整实验展示</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="website-url">
+                <h3>🌐 网站访问地址</h3>
+                <div class="url-box" id="websiteUrl">
+                    请上传到GitHub Pages获取访问地址
+                </div>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    将此链接分享给朋友或老师，他们就可以看到你的作品了！
+                </p>
+            </div>
+            
+            <h2 style="color: #333; margin-bottom: 20px;">📋 实验任务展示</h2>
+            
+            <div class="tasks-grid">
+                <!-- 任务一 -->
+                <div class="task-card" onclick="window.location.href='task1.html'">
+                    <h3>任务一：第一个HTML页面</h3>
+                    <p>创建第一个HTML页面，包含CSS样式和JavaScript弹窗效果。</p>
+                    <p><strong>技术要点：</strong>HTML基础结构、CSS内联样式、JavaScript弹窗</p>
+                    <a href="task1.html" class="task-link">查看页面 →</a>
+                </div>
+                
+                <!-- 任务二 -->
+                <div class="task-card" onclick="window.location.href='task2.html'">
+                    <h3>任务二：班级主页</h3>
+                    <p>创建一个简单的班级主页，显示欢迎信息。</p>
+                    <p><strong>技术要点：</strong>基本的HTML文档结构、段落标签</p>
+                    <a href="task2.html" class="task-link">查看页面 →</a>
+                </div>
+                
+                <!-- 任务三 -->
+                <div class="task-card" onclick="window.location.href='task3.html'">
+                    <h3>任务三：标题字实例</h3>
+                    <p>展示HTML标题标签的使用方法和语法说明。</p>
+                    <p><strong>技术要点：</strong>h1-h6标题标签、align属性、HTML实体</p>
+                    <a href="task3.html" class="task-link">查看页面 →</a>
+                </div>
+                
+                <!-- 任务四 -->
+                <div class="task-card" onclick="window.location.href='task4.html'">
+                    <h3>任务四：序列表实例</h3>
+                    <p>展示五种不同类型的HTML有序列表。</p>
+                    <p><strong>技术要点：</strong>ol标签、type属性、表格布局</p>
+                    <a href="task4.html" class="task-link">查看页面 →</a>
+                </div>
+                
+                <!-- 任务五 -->
+                <div class="task-card" onclick="window.location.href='task5.html'">
+                    <h3>任务五：无序列表嵌套</h3>
+                    <p>创建多层嵌套的无序列表，展示列表的层级关系。</p>
+                    <p><strong>技术要点：</strong>ul标签嵌套、type属性、列表结构</p>
+                    <a href="task5.html" class="task-link">查看页面 →</a>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2024 HTML实验三 - 网页制作基础</p>
+            <p>部署平台：GitHub Pages | 实验指导：网页制作基础课程</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                提示：点击任务卡片或链接按钮都可以查看相应页面
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // 自动生成网站访问地址
+        function updateWebsiteUrl() {
+            // 获取当前页面的基础URL
+            let baseUrl = window.location.href;
+            
+            // 如果是GitHub Pages，显示漂亮的主页地址
+            if (baseUrl.includes('github.io')) {
+                // 提取用户名和仓库名
+                let match = baseUrl.match(/https?:\/\/([^\/]+)\.github\.io/);
+                if (match) {
+                    document.getElementById('websiteUrl').innerHTML = 
+                        `https://${match[1]}.github.io`;
+                }
+            } else {
+                // 本地访问时显示提示
+                document.getElementById('websiteUrl').innerHTML = 
+                    '请上传到GitHub Pages获取访问地址';
+            }
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', updateWebsiteUrl);
+    </script>
+</body>
+</html>

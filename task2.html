@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>班级主页</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            min-height: 100vh;
+        }
+        .header {
+            background: rgba(0, 102, 204, 0.9);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        .main-content {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .welcome-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .welcome-text {
+            font-size: 2em;
+            color: #0066cc;
+            margin: 20px 0;
+            padding: 20px;
+            border: 3px dashed #0066cc;
+            border-radius: 10px;
+            background: #f0f8ff;
+        }
+        .class-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .info-card {
+            flex: 1;
+            min-width: 200px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .info-card h3 {
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 10px;
+        }
+        .navigation {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 10px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #0052a3;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,102,204,0.3);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>班级主页</h1>
+        <p>计算机科学与技术专业 - 2024级</p>
+    </div>
+    
+    <div class="main-content">
+        <div class="welcome-box">
+            <h2>🌟 欢迎来到我们的班级主页 🌟</h2>
+            <div class="welcome-text">
+                欢迎来到我们的班级主页
+            </div>
+            <p>这是一个展示班级风采、分享学习资源、促进同学交流的平台。</p>
+        </div>
+        
+        <div class="class-info">
+            <div class="info-card">
+                <h3>📚 班级信息</h3>
+                <p><strong>班级：</strong>计算机2401班</p>
+                <p><strong>专业：</strong>计算机科学与技术</p>
+                <p><strong>人数：</strong>45人</p>
+                <p><strong>班主任：</strong>李老师</p>
+            </div>
+            
+            <div class="info-card">
+                <h3>🎯 学习目标</h3>
+                <p>• 掌握编程基础</p>
+                <p>• 学习网页开发</p>
+                <p>• 培养团队协作</p>
+                <p>• 提升创新能力</p>
+            </div>
+            
+            <div class="info-card">
+                <h3>📅 近期活动</h3>
+                <p>• HTML网页制作实验</p>
+                <p>• 班级编程比赛</p>
+                <p>• 学习经验分享会</p>
+                <p>• 项目开发实践</p>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <a href="index.html" class="btn">返回主页</a>
+            <a href="task1.html" class="btn">查看任务一</a>
+            <a href="task3.html" class="btn">查看任务三</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2024 计算机2401班 - 班级主页</p>
+        <p>联系方式：class2401@example.com | 实验三：网页制作基础</p>
+    </footer>
+</body>
+</html>

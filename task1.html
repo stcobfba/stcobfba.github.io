@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎你！我的朋友</title>
+    <style type="text/css">
+        h1 {
+            font-family: "幼圆", "Microsoft YaHei", sans-serif;
+            font-size: x-large;
+            color: red;
+            text-align: center;
+            margin-top: 50px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background: #0052a3;
+        }
+        .code-box {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>当你进入 HTML 编程世界的时候，你的<br>感觉是全新的！</h1>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <p>这是一个简单的HTML页面，包含了：</p>
+            <ul style="text-align: left; display: inline-block; margin: 20px 0;">
+                <li>HTML基本结构</li>
+                <li>CSS样式（红色幼圆字体）</li>
+                <li>JavaScript弹窗效果</li>
+                <li>响应式设计</li>
+            </ul>
+        </div>
+        
+        <div class="code-box">
+            <h3>HTML代码结构：</h3>
+            <pre>
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;欢迎你！我的朋友&lt;/title&gt;
+&lt;style&gt;
+h1 { font-family: 幼圆; font-size: x-large; color: red }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;当你进入 HTML 编程世界的时候，你的&lt;br&gt;感觉是全新的！&lt;/h1&gt;
+&lt;script&gt;
+alert("welcome! 朋友们")
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </pre>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" class="back-btn">← 返回主页</a>
+            <button onclick="showAlert()" style="padding: 10px 20px; margin-left: 10px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                点击测试弹窗
+            </button>
+        </div>
+    </div>
+    
+    <script language="JavaScript">
+        // 页面加载时弹出欢迎信息
+        alert("welcome! 朋友们");
+        
+        // 额外的测试函数
+        function showAlert() {
+            alert("🎉 欢迎来到HTML的世界！\n这是JavaScript弹窗效果。");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>序列表实例</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0066cc;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #0066cc;
+        }
+        .lists-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .list-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e1e4e8;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .list-box:hover {
+            transform: translateY(-5px);
+            border-color: #0066cc;
+            box-shadow: 0 8px 20px rgba(0,102,204,0.1);
+        }
+        .list-title {
+            text-align: center;
+            color: #0066cc;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #e1e4e8;
+        }
+        ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        ol li {
+            margin: 8px 0;
+            padding: 5px 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        ol li:hover {
+            background: #e9ecef;
+        }
+        .example-note {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            margin: 15px 0;
+        }
+        .navigation {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 0 10px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #0052a3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,102,204,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HTML序列表实例</h1>
+        
+        <div class="example-note">
+            <strong>📝 说明：</strong> HTML提供了多种有序列表类型，通过<code>type</code>属性可以指定不同的序号样式。
+        </div>
+        
+        <div class="lists-container">
+            <!-- 数字列表 -->
+            <div class="list-box">
+                <h3 class="list-title">数字列表：</h3>
+                <ol type="1">
+                    <li>苹果</li>
+                    <li>香蕉</li>
+                    <li>柠檬</li>
+                    <li>橘子</li>
+                </ol>
+                <div class="code-example">
+&lt;ol type="1"&gt;
+    &lt;li&gt;苹果&lt;/li&gt;
+    &lt;li&gt;香蕉&lt;/li&gt;
+    &lt;li&gt;柠檬&lt;/li&gt;
+    &lt;li&gt;橘子&lt;/li&gt;
+&lt;/ol&gt;
+                </div>
+            </div>
+            
+            <!-- 大写罗马字母列表 -->
+            <div class="list-box">
+                <h3 class="list-title">大写罗马字母列表：</h3>
+                <ol type="I">
+                    <li>苹果</li>
+                    <li>香蕉</li>
+                    <li>柠檬</li>
+                    <li>橘子</li>
+                </ol>
+                <div class="code-example">
+&lt;ol type="I"&gt;
+    &lt;li&gt;苹果&lt;/li&gt;
+    &lt;li&gt;香蕉&lt;/li&gt;
+    &lt;li&gt;柠檬&lt;/li&gt;
+    &lt;li&gt;橘子&lt;/li&gt;
+&lt;/ol&gt;
+                </div>
+            </div>
+            
+            <!-- 大写字母列表 -->
+            <div class="list-box">
+                <h3 class="list-title">大写字母列表：</h3>
+                <ol type="A">
+                    <li>苹果</li>
+                    <li>香蕉</li>
+                    <li>柠檬</li>
+                    <li>橘子</li>
+                </ol>
+                <div class="code-example">
+&lt;ol type="A"&gt;
+    &lt;li&gt;苹果&lt;/li&gt;
+    &lt;li&gt;香蕉&lt;/li&gt;
+    &lt;li&gt;柠檬&lt;/li&gt;
+    &lt;li&gt;橘子&lt;/li&gt;
+&lt;/ol&gt;
+                </div>
+            </div>
+            
+            <!-- 小写罗马字母列表 -->
+            <div class="list-box">
+                <h3 class="list-title">小写罗马字母列表：</h3>
+                <ol type="i">
+                    <li>苹果</li>
+                    <li>香蕉</li>
+                    <li>柠檬</li>
+                    <li>橘子</li>
+                </ol>
+                <div class="code-example">
+&lt;ol type="i"&gt;
+    &lt;li&gt;苹果&lt;/li&gt;
+    &lt;li&gt;香蕉&lt;/li&gt;
+    &lt;li&gt;柠檬&lt;/li&gt;
+    &lt;li&gt;橘子&lt;/li&gt;
+&lt;/ol&gt;
+                </div>
+            </div>
+            
+            <!-- 小写字母列表 -->
+            <div class="list-box">
+                <h3 class="list-title">小写字母列表：</h3>
+                <ol type="a">
+                    <li>苹果</li>
+                    <li>香蕉</li>
+                    <li>柠檬</li>
+                    <li>橘子</li>
+                </ol>
+                <div class="code-example">
+&lt;ol type="a"&gt;
+    &lt;li&gt;苹果&lt;/li&gt;
+    &lt;li&gt;香蕉&lt;/li&gt;
+    &lt;li&gt;柠檬&lt;/li&gt;
+    &lt;li&gt;橘子&lt;/li&gt;
+&lt;/ol&gt;
+                </div>
+            </div>
+        </div>
+        
+        <div class="example-note">
+            <strong>🔧 type属性值说明：</strong>
+            <ul>
+                <li><code>type="1"</code>：数字（默认）</li>
+                <li><code>type="A"</code>：大写字母</li>
+                <li><code>type="a"</code>：小写字母</li>
+                <li><code>type="I"</code>：大写罗马数字</li>
+                <li><code>type="i"</code>：小写罗马数字</li>
+            </ul>
+        </div>
+        
+        <div class="navigation">
+            <a href="index.html" class="btn">返回主页</a>
+            <a href="task3.html" class="btn">← 上一个任务</a>
+            <a href="task5.html" class="btn">下一个任务 →</a>
+        </div>
+    </div>
+</body>
+</html>

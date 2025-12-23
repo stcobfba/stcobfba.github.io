@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>文字实例 - 标题字</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            margin: 20px 0;
+            padding: 10px;
+            border-left: 5px solid;
+        }
+        h1 { border-left-color: #ff0000; background: #ffe6e6; }
+        h2 { border-left-color: #ff6600; background: #fff0e6; }
+        h3 { border-left-color: #ffcc00; background: #fff9e6; }
+        h4 { border-left-color: #66cc00; background: #f0ffe6; }
+        h5 { border-left-color: #0066cc; background: #e6f0ff; }
+        h6 { border-left-color: #6600cc; background: #f0e6ff; }
+        
+        .example-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Consolas', monospace;
+        }
+        .navigation {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .nav-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            margin: 0 5px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav-btn:hover {
+            background: #0052a3;
+        }
+        .note {
+            background: #e7f3ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 align="center">HTML标题字实例</h1>
+        
+        <div class="example-section">
+            <h3 align="left">3.1.2 标题字</h3>
+            <p>&nbsp;&nbsp;标题字，就是以几种固定的字号去显示文字。在 HTML 中，定义了六级标题，从一级到六级，每级标题的字体大小依次递减。</p>
+        </div>
+        
+        <div class="example-section">
+            <h5 align="left">基本语法：</h5>
+            <div class="code-example">
+                &lt;h# align="left|center|right"&gt;标题文字&lt;/h#&gt;
+            </div>
+        </div>
+        
+        <div class="example-section">
+            <h5 align="left">语法说明：</h5>
+            <p>&nbsp;&nbsp;标题标记本身具有换行的作用，标题总是从新的一行开始；#用来指定标题文字的大小，#取 1~6 的整数值，取 1 时文字最大，取 6 时文字最小。</p>
+        </div>
+        
+        <div class="example-section">
+            <h2 align="center">六级标题展示</h2>
+            
+            <h1 align="left">这是一级标题 (h1) - 最大</h1>
+            <h2 align="left">这是二级标题 (h2)</h2>
+            <h3 align="left">这是三级标题 (h3)</h3>
+            <h4 align="left">这是四级标题 (h4)</h4>
+            <h5 align="left">这是五级标题 (h5)</h5>
+            <h6 align="left">这是六级标题 (h6) - 最小</h6>
+        </div>
+        
+        <div class="example-section">
+            <h3 align="center">对齐方式示例</h3>
+            
+            <h4 align="left">左对齐标题</h4>
+            <p>这是左对齐的段落文字，与上面的标题对齐方式一致。</p>
+            
+            <h4 align="center">居中对齐标题</h4>
+            <p align="center">这是居中对齐的段落文字。</p>
+            
+            <h4 align="right">右对齐标题</h4>
+            <p align="right">这是右对齐的段落文字。</p>
+        </div>
+        
+        <div class="note">
+            <strong>注意：</strong>
+            <ul>
+                <li>HTML实体 <code>&amp;nbsp;</code> 表示一个空格</li>
+                <li><code>&lt;br&gt;</code> 标签表示换行</li>
+                <li>特殊字符需要使用HTML实体，如 <code>&amp;lt;</code> 表示 &lt;</li>
+            </ul>
+        </div>
+        
+        <div class="example-section">
+            <h4 align="center">完整代码示例</h4>
+            <div class="code-example">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="zh-CN"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;文字实例&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h3 align="left"&gt;3.1.2 标题字&lt;/h3&gt;
+    &amp;nbsp;&amp;nbsp;标题字，就是以几种固定的字号去显示文字...
+    
+    &lt;h5 align="left"&gt;基本语法：&lt;/h5&gt;
+    &amp;nbsp;&amp;nbsp;&amp;lt;h# align="left|center|right"&amp;gt;标题文字&amp;lt;/h#&amp;gt;
+    
+    &lt;h5 align="left"&gt;语法说明：&lt;/h5&gt;
+    &amp;nbsp;&amp;nbsp;标题标记本身具有换行的作用...
+&lt;/body&gt;
+&lt;/html&gt;
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <a href="index.html" class="nav-btn">返回主页</a>
+            <a href="task2.html" class="nav-btn">← 上一个任务</a>
+            <a href="task4.html" class="nav-btn">下一个任务 →</a>
+        </div>
+    </div>
+</body>
+</html>
