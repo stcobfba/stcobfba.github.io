@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美食详情 - 中华美食汇</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #a8dadc;
+            --light-color: #f1faee;
+            --dark-color: #1d3557;
+            --accent-color: #ff9f1c;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            background: var(--dark-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-links a.active {
+            background: var(--primary-color);
+        }
+        
+        /* 返回按钮 */
+        .back-btn {
+            background: var(--secondary-color);
+            color: var(--dark-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 2rem 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        /* 详情页内容 */
+        .detail-content {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .detail-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        
+        .detail-body {
+            padding: 2rem;
+        }
+        
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-title {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+        }
+        
+        .detail-region {
+            background: var(--secondary-color);
+            color: var(--dark-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .detail-rating {
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .detail-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+        
+        /* 详细信息网格 */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .detail-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .detail-item h4 {
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        /* 操作按钮 */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .favorite-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .favorite-btn.active {
+            background: #c1121f;
+        }
+        
+        .share-btn {
+            background: var(--secondary-color);
+            color: var(--dark-color);
+        }
+        
+        /* 评论区域 */
+        .comments-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .comments-section h3 {
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .comment-form {
+            margin-bottom: 2rem;
+        }
+        
+        .comment-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            resize: vertical;
+            min-height: 100px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .comment-submit {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .comment-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .comment-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .detail-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .detail-title {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-utensils"></i>中华美食汇
+            </a>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="foods.html">美食列表</a>
+                <a href="favorites.html">我的收藏</a>
+                <a href="about.html">关于我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="container">
+        <a href="foods.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>返回美食列表
+        </a>
+
+        <!-- 美食详情 -->
+        <div class="detail-content">
+            <img class="detail-image" id="detailImage" src="" alt="">
+            <div class="detail-body">
+                <div class="detail-header">
+                    <div>
+                        <h1 class="detail-title" id="detailTitle"></h1>
+                        <div class="detail-region" id="detailRegion"></div>
+                    </div>
+                    <div class="detail-rating" id="detailRating"></div>
+                </div>
+                
+                <p class="detail-description" id="detailDescription"></p>
+                
+                <div class="details-grid" id="detailsGrid">
+                    <!-- 详细信息将通过JavaScript动态生成 -->
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn favorite-btn" id="favoriteBtn">
+                        <i class="fas fa-heart"></i>添加到收藏
+                    </button>
+                    <button class="action-btn share-btn" onclick="shareFood()">
+                        <i class="fas fa-share-alt"></i>分享美食
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 评论区域 -->
+        <div class="comments-section">
+            <h3><i class="fas fa-comments"></i> 用户评论</h3>
+            
+            <div class="comment-form">
+                <textarea class="comment-input" id="commentInput" placeholder="写下您的评论..."></textarea>
+                <button class="comment-submit" id="commentSubmit">发表评论</button>
+            </div>
+            
+            <div class="comment-list" id="commentList">
+                <!-- 评论将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>© 2023 舌尖上的中国 - 地方美食文化展示</p>
+            <p>本页面仅供学习交流使用，图片来源于网络</p>
+        </div>
+    </footer>
+
+    <script>
+        // 美食数据
+        const foods = [
+            {
+                id: 1,
+                name: "北京烤鸭",
+                region: "north",
+                regionName: "北京",
+                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "北京烤鸭是享誉世界的北京名菜，用料为优质肉食鸭北京鸭，果木炭火烤制，色泽红润，肉质肥而不腻，外脆里嫩。",
+                rating: 4.8,
+                details: {
+                    "主要原料": "北京鸭、甜面酱、葱丝、黄瓜条、薄饼",
+                    "烹饪方式": "果木炭火烤制，工艺复杂讲究",
+                    "口感特点": "外皮酥脆，肉质鲜嫩，肥而不腻",
+                    "典型配菜": "甜面酱、葱丝、黄瓜条、薄饼"
+                },
+                comments: [
+                    { author: "美食爱好者", date: "2023-11-10", content: "外皮酥脆，肉质鲜嫩，不愧是国宴级别的美食！" },
+                    { author: "旅行家", date: "2023-11-08", content: "在北京全聚德吃的，味道正宗，值得推荐！" }
+                ]
+            },
+            {
+                id: 2,
+                name: "四川火锅",
+                region: "west",
+                regionName: "四川",
+                image: "https://images.unsplash.com/photo-1555945877-5f6bcebfadfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "四川火锅以麻、辣、鲜、香著称，锅底选用多种辣椒和花椒，搭配数十种香料熬制而成，是四川饮食文化的代表。",
+                rating: 4.9,
+                details: {
+                    "主要原料": "牛油、辣椒、花椒、豆瓣酱、多种香料",
+                    "烹饪方式": "涮煮，锅底熬制时间长达数小时",
+                    "口感特点": "麻辣鲜香，口感丰富，回味无穷",
+                    "典型配菜": "毛肚、黄喉、鸭肠、牛肉片、豆皮、蔬菜"
+                },
+                comments: [
+                    { author: "辣味爱好者", date: "2023-11-05", content: "麻辣鲜香，冬天吃火锅最舒服了！特别是麻辣锅底，让人欲罢不能。" }
+                ]
+            },
+            {
+                id: 3,
+                name: "广东早茶",
+                region: "south",
+                regionName: "广东",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "广东早茶是粤菜的重要组成部分，包括虾饺、烧卖、肠粉、凤爪等多种精致点心，是广东人饮食文化的重要体现。",
+                rating: 4.7,
+                details: {
+                    "主要原料": "虾仁、猪肉、面粉、蔬菜、调味料",
+                    "烹饪方式": "蒸制为主，工艺精细讲究",
+                    "口感特点": "品种丰富，味道鲜美，精致可口",
+                    "典型点心": "虾饺、烧卖、肠粉、凤爪、叉烧包"
+                },
+                comments: [
+                    { author: "点心控", date: "2023-11-12", content: "虾饺皮薄馅大，凤爪软糯入味，太美味了！" }
+                ]
+            },
+            {
+                id: 4,
+                name: "上海小笼包",
+                region: "east",
+                regionName: "上海",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "上海小笼包以皮薄、馅大、汁多、味鲜而闻名，制作工艺讲究，吃时需小心咬破外皮，先吸汤汁再食。",
+                rating: 4.6,
+                details: {
+                    "主要原料": "猪肉、面粉、肉皮冻、姜末、调味料",
+                    "烹饪方式": "蒸制，皮薄馅大工艺讲究",
+                    "口感特点": "皮薄汁多，馅料鲜美，汤汁浓郁",
+                    "食用方法": "先吸汤汁，再食馅料，配以姜丝醋"
+                },
+                comments: [
+                    { author: "包子爱好者", date: "2023-11-09", content: "汤汁鲜美，皮薄馅大，一口一个太满足了！" }
+                ]
+            },
+            {
+                id: 5,
+                name: "西安肉夹馍",
+                region: "central",
+                regionName: "陕西",
+                image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "肉夹馍是陕西著名小吃，将腊汁肉切碎夹入烤制好的白吉馍中，肉香馍脆，肥而不腻，回味无穷。",
+                rating: 4.5,
+                details: {
+                    "主要原料": "猪肉、面粉、香料、腊汁、调味料",
+                    "烹饪方式": "烤制白吉馍，卤制腊汁肉",
+                    "口感特点": "肉香馍脆，肥而不腻，回味无穷",
+                    "特色": "腊汁肉香浓，白吉馍外酥内软"
+                },
+                comments: [
+                    { author: "面食爱好者", date: "2023-11-07", content: "馍香肉烂，肥而不腻，太香了！" }
+                ]
+            },
+            {
+                id: 6,
+                name: "云南过桥米线",
+                region: "south",
+                regionName: "云南",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "过桥米线是云南特色小吃，汤用大骨、老母鸡、云南宣威火腿等熬制而成，吃时将生肉片、蔬菜等放入滚烫的汤中烫熟。",
+                rating: 4.7,
+                details: {
+                    "主要原料": "米线、鸡汤、肉片、蔬菜、火腿",
+                    "烹饪方式": "汤底熬制，现场烫熟",
+                    "口感特点": "汤鲜味美，米线爽滑，营养丰富",
+                    "特色": "汤鲜料足，现场烫制，保持食材新鲜"
+                },
+                comments: [
+                    { author: "米线控", date: "2023-11-11", content: "汤鲜味美，米线爽滑，营养丰富！" }
+                ]
+            },
+            {
+                id: 7,
+                name: "杭州西湖醋鱼",
+                region: "east",
+                regionName: "浙江",
+                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "西湖醋鱼是杭州传统名菜，选用西湖草鱼，配以醋、糖、姜等调料，酸甜可口，鱼肉鲜嫩。",
+                rating: 4.6,
+                details: {
+                    "主要原料": "草鱼、醋、糖、姜、料酒",
+                    "烹饪方式": "蒸煮，糖醋汁调味",
+                    "口感特点": "酸甜可口，鱼肉鲜嫩，开胃爽口",
+                    "特色": "酸甜适中，鱼肉鲜嫩，造型美观"
+                },
+                comments: [
+                    { author: "江浙菜爱好者", date: "2023-11-06", content: "酸甜适中，鱼肉鲜嫩，很有特色！" }
+                ]
+            },
+            {
+                id: 8,
+                name: "新疆大盘鸡",
+                region: "west",
+                regionName: "新疆",
+                image: "https://images.unsplash.com/photo-1555945877-5f6bcebfadfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "新疆大盘鸡是新疆特色菜，鸡肉鲜嫩，土豆软糯，配以宽面，味道浓郁，分量十足。",
+                rating: 4.8,
+                details: {
+                    "主要原料": "鸡肉、土豆、辣椒、宽面、香料",
+                    "烹饪方式": "炖煮，配以宽面",
+                    "口感特点": "鸡肉鲜嫩，土豆软糯，味道浓郁",
+                    "特色": "分量十足，味道浓郁，配宽面食用"
+                },
+                comments: [
+                    { author: "西北菜爱好者", date: "2023-11-04", content: "鸡肉鲜嫩，土豆入味，宽面吸满汤汁，太香了！" }
+                ]
+            },
+            {
+                id: 9,
+                name: "湖南剁椒鱼头",
+                region: "central",
+                regionName: "湖南",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "剁椒鱼头是湖南名菜，选用新鲜鱼头，配以特制剁椒，鲜辣开胃，鱼肉鲜嫩，汤汁浓郁。",
+                rating: 4.7,
+                details: {
+                    "主要原料": "鱼头、剁椒、姜蒜、料酒、调味料",
+                    "烹饪方式": "蒸制，剁椒调味",
+                    "口感特点": "鲜辣开胃，鱼肉鲜嫩，汤汁浓郁",
+                    "特色": "剁椒鲜辣，鱼肉鲜嫩，开胃下饭"
+                },
+                comments: [
+                    { author: "辣味爱好者", date: "2023-11-03", content: "鲜辣开胃，鱼肉鲜嫩，剁椒味道很正宗！" }
+                ]
+            },
+            {
+                id: 10,
+                name: "福建佛跳墙",
+                region: "east",
+                regionName: "福建",
+                image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "佛跳墙是福建名菜，选用鲍鱼、海参、鱼翅等高档食材，文火慢炖，汤汁浓郁，营养丰富。",
+                rating: 4.9,
+                details: {
+                    "主要原料": "鲍鱼、海参、鱼翅、花菇、高汤",
+                    "烹饪方式": "文火慢炖，工艺复杂",
+                    "口感特点": "汤汁浓郁，食材丰富，营养滋补",
+                    "特色": "高档食材，工艺复杂，滋补养生"
+                },
+                comments: [
+                    { author: "美食家", date: "2023-11-02", content: "食材丰富，汤汁浓郁，不愧是国宴级别的菜品！" }
+                ]
+            },
+            {
+                id: 11,
+                name: "东北锅包肉",
+                region: "north",
+                regionName: "东北",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "锅包肉是东北名菜，外酥里嫩，酸甜可口，色泽金黄，是东北菜的代表作之一。",
+                rating: 4.6,
+                details: {
+                    "主要原料": "猪里脊、淀粉、糖醋汁、胡萝卜丝、葱姜",
+                    "烹饪方式": "炸制，糖醋汁调味",
+                    "口感特点": "外酥里嫩，酸甜可口，色泽金黄",
+                    "特色": "外酥里嫩，酸甜可口，东北菜代表"
+                },
+                comments: [
+                    { author: "东北菜爱好者", date: "2023-11-01", content: "外酥里嫩，酸甜可口，很下饭！" }
+                ]
+            },
+            {
+                id: 12,
+                name: "重庆小面",
+                region: "west",
+                regionName: "重庆",
+                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "重庆小面是重庆特色面食，面条劲道，汤料麻辣鲜香，配以各种佐料，味道独特。",
+                rating: 4.7,
+                details: {
+                    "主要原料": "面条、辣椒油、花椒、芝麻酱、葱花",
+                    "烹饪方式": "煮制，麻辣汤底",
+                    "口感特点": "麻辣鲜香，面条劲道，味道独特",
+                    "特色": "麻辣鲜香，面条劲道，重庆特色"
+                },
+                comments: [
+                    { author: "面食控", date: "2023-10-30", content: "麻辣鲜香，面条劲道，很过瘾！" }
+                ]
+            },
+            {
+                id: 13,
+                name: "江苏盐水鸭",
+                region: "east",
+                regionName: "江苏",
+                image: "https://images.unsplash.com/photo-1555945877-5f6bcebfadfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "盐水鸭是南京传统名菜，鸭肉鲜嫩，咸香适中，皮白肉红，是江苏菜的代表作。",
+                rating: 4.5,
+                details: {
+                    "主要原料": "鸭子、盐、花椒、八角、料酒",
+                    "烹饪方式": "卤制，工艺讲究",
+                    "口感特点": "鸭肉鲜嫩，咸香适中，皮白肉红",
+                    "特色": "皮白肉红，咸香适中，南京特色"
+                },
+                comments: [
+                    { author: "江浙菜爱好者", date: "2023-10-29", content: "鸭肉鲜嫩，咸香适中，很下饭！" }
+                ]
+            },
+            {
+                id: 14,
+                name: "山西刀削面",
+                region: "north",
+                regionName: "山西",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "刀削面是山西特色面食，面条宽厚，口感劲道，配以各种浇头，味道鲜美。",
+                rating: 4.6,
+                details: {
+                    "主要原料": "面粉、水、浇头、调味料",
+                    "烹饪方式": "削制，工艺独特",
+                    "口感特点": "面条宽厚，口感劲道，味道鲜美",
+                    "特色": "刀削工艺，面条劲道，山西特色"
+                },
+                comments: [
+                    { author: "面食爱好者", date: "2023-10-28", content: "面条劲道，浇头丰富，很有特色！" }
+                ]
+            },
+            {
+                id: 15,
+                name: "海南文昌鸡",
+                region: "south",
+                regionName: "海南",
+                image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "文昌鸡是海南名菜，鸡肉鲜嫩，皮薄骨酥，配以特制蘸料，味道鲜美，营养丰富。",
+                rating: 4.7,
+                details: {
+                    "主要原料": "文昌鸡、姜蒜、蘸料、调味料",
+                    "烹饪方式": "白切，保持原味",
+                    "口感特点": "鸡肉鲜嫩，皮薄骨酥，味道鲜美",
+                    "特色": "皮薄骨酥，肉质鲜嫩，海南特色"
+                },
+                comments: [
+                    { author: "海南游客", date: "2023-10-27", content: "鸡肉鲜嫩，蘸料独特，很有海南特色！" }
+                ]
+            }
+        ];
+
+        // 用户数据
+        let userFavorites = JSON.parse(localStorage.getItem('userFavorites')) || [];
+        let currentFoodId = null;
+
+        // DOM元素
+        const detailImage = document.getElementById('detailImage');
+        const detailTitle = document.getElementById('detailTitle');
+        const detailRegion = document.getElementById('detailRegion');
+        const detailRating = document.getElementById('detailRating');
+        const detailDescription = document.getElementById('detailDescription');
+        const detailsGrid = document.getElementById('detailsGrid');
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        const commentInput = document.getElementById('commentInput');
+        const commentSubmit = document.getElementById('commentSubmit');
+        const commentList = document.getElementById('commentList');
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const foodId = parseInt(urlParams.get('id'));
+            
+            if (foodId) {
+                loadFoodDetail(foodId);
+                setupEventListeners();
+            } else {
+                // 如果没有ID参数，跳转到美食列表页
+                window.location.href = 'foods.html';
+            }
+        });
+
+        // 加载美食详情
+        function loadFoodDetail(foodId) {
+            const food = foods.find(f => f.id === foodId);
+            if (!food) {
+                window.location.href = 'foods.html';
+                return;
+            }
+
+            currentFoodId = foodId;
+            
+            // 更新页面标题
+            document.title = `${food.name} - 舌尖上的中国`;
+            
+            // 更新页面内容
+            detailImage.src = food.image;
+            detailImage.alt = food.name;
+            detailTitle.textContent = food.name;
+            detailRegion.textContent = food.regionName;
+            detailRating.innerHTML = `<i class="fas fa-star"></i> ${food.rating}`;
+            detailDescription.textContent = food.description;
+            
+            // 更新收藏按钮状态
+            updateFavoriteButton(foodId);
+            
+            // 显示详细信息
+            displayDetails(food.details);
+            
+            // 显示评论
+            displayComments(food.comments);
+        }
+
+        // 显示详细信息
+        function displayDetails(details) {
+            detailsGrid.innerHTML = '';
+            
+            for (const [key, value] of Object.entries(details)) {
+                const detailItem = document.createElement('div');
+                detailItem.className = 'detail-item';
+                detailItem.innerHTML = `
+                    <h4>${key}</h4>
+                    <p>${value}</p>
+                `;
+                detailsGrid.appendChild(detailItem);
+            }
+        }
+
+        // 显示评论
+        function displayComments(comments) {
+            commentList.innerHTML = '';
+            
+            if (comments.length === 0) {
+                commentList.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">暂无评论，快来发表第一条评论吧！</p>';
+                return;
+            }
+            
+            comments.forEach(comment => {
+                const commentItem = document.createElement('div');
+                commentItem.className = 'comment-item';
+                commentItem.innerHTML = `
+                    <div class="comment-header">
+                        <div class="comment-author">${comment.author}</div>
+                        <span class="comment-date">${comment.date}</span>
+                    </div>
+                    <p>${comment.content}</p>
+                `;
+                commentList.appendChild(commentItem);
+            });
+        }
+
+        // 更新收藏按钮状态
+        function updateFavoriteButton(foodId) {
+            const isFavorite = userFavorites.includes(foodId);
+            favoriteBtn.innerHTML = isFavorite ? 
+                '<i class="fas fa-heart"></i>已收藏' : 
+                '<i class="fas fa-heart"></i>添加到收藏';
+            favoriteBtn.classList.toggle('active', isFavorite);
+        }
+
+        // 设置事件监听
+        function setupEventListeners() {
+            // 收藏按钮
+            favoriteBtn.addEventListener('click', toggleFavorite);
+            
+            // 评论提交
+            commentSubmit.addEventListener('click', submitComment);
+        }
+
+        // 切换收藏状态
+        function toggleFavorite() {
+            if (!currentFoodId) return;
+            
+            const index = userFavorites.indexOf(currentFoodId);
+            
+            if (index > -1) {
+                userFavorites.splice(index, 1);
+                showNotification('已取消收藏');
+            } else {
+                userFavorites.push(currentFoodId);
+                showNotification('已添加到收藏');
+            }
+            
+            // 更新按钮状态
+            updateFavoriteButton(currentFoodId);
+            
+            // 保存到本地存储
+            localStorage.setItem('userFavorites', JSON.stringify(userFavorites));
+        }
+
+        // 提交评论
+        function submitComment() {
+            const content = commentInput.value.trim();
+            if (!content) {
+                showNotification('请输入评论内容');
+                return;
+            }
+            
+            if (!currentFoodId) return;
+            
+            const food = foods.find(f => f.id === currentFoodId);
+            if (!food) return;
+            
+            const newComment = {
+                author: "匿名用户",
+                date: new Date().toISOString().split('T')[0],
+                content: content
+            };
+            
+            food.comments.unshift(newComment);
+            displayComments(food.comments);
+            commentInput.value = '';
+            showNotification('评论发表成功！');
+        }
+
+        // 分享功能
+        function shareFood() {
+            if (!currentFoodId) return;
+            
+            const food = foods.find(f => f.id === currentFoodId);
+            if (!food) return;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: food.name,
+                    text: food.description,
+                    url: window.location.href
+                });
+            } else {
+                // 备用分享方式
+                const shareText = `我发现了一道美食：${food.name} - ${food.description}`;
+                prompt('复制以下内容分享给朋友：', shareText);
+            }
+        }
+
+        // 显示通知
+        function showNotification(message) {
+            // 简单的通知实现
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--primary-color);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 5px;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美食列表 - 中华美食汇</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #a8dadc;
+            --light-color: #f1faee;
+            --dark-color: #1d3557;
+            --accent-color: #ff9f1c;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            background: var(--dark-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-links a.active {
+            background: var(--primary-color);
+        }
+        
+        /* 头部区域 */
+        .page-header {
+            background: linear-gradient(rgba(29, 53, 87, 0.9), rgba(29, 53, 87, 0.95));
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* 搜索和筛选 */
+        .filters {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .region-filter {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .region-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .region-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* 美食网格 */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .food-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .food-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 24px;
+        }
+        
+        .card-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title span {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+.card-region {
+            background: var(--secondary-color);
+            color: var(--dark-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .card-description {
+            color: #666;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-rating {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .card-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-utensils"></i>中华美食汇
+            </a>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="foods.html" class="active">美食列表</a>
+                <a href="favorites.html">我的收藏</a>
+                <a href="about.html">关于我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 头部区域 -->
+    <section class="page-header">
+        <div class="container">
+            <h1>中华美食汇</h1>
+            <p>汇集中国各地特色美食</p>
+        </div>
+    </section>
+
+    <!-- 主内容区 -->
+    <main class="container">
+        <!-- 搜索和筛选 -->
+        <div class="filters">
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索美食名称、地区或特色...">
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="region-filter">
+                <button class="region-btn active" data-region="all">全部美食</button>
+                <button class="region-btn" data-region="north">北方风味</button>
+                <button class="region-btn" data-region="south">南方佳肴</button>
+                <button class="region-btn" data-region="east">东部海鲜</button>
+                <button class="region-btn" data-region="west">西部特色</button>
+                <button class="region-btn" data-region="central">中部经典</button>
+            </div>
+        </div>
+
+        <!-- 美食网格 -->
+        <div class="food-grid" id="foodGrid">
+            <!-- 美食卡片将通过JavaScript动态生成 -->
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>© 2023 舌尖上的中国 - 地方美食文化展示</p>
+            <p>本页面仅供学习交流使用，图片来源于网络</p>
+        </div>
+    </footer>
+
+    <script>
+        // 美食数据 - 使用真正不同的专业美食图片URL
+        const foods = [
+            {
+                id: 1,
+                name: "北京烤鸭",
+                region: "north",
+                regionName: "北京",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "北京烤鸭是享誉世界的北京名菜，用料为优质肉食鸭北京鸭，果木炭火烤制，色泽红润，肉质肥而不腻，外脆里嫩。",
+                rating: 4.8,
+                details: {
+                    ingredients: ["北京鸭", "甜面酱", "葱丝", "黄瓜条", "薄饼"],
+                    cookingMethod: "烤制",
+                    origin: "北京",
+                    calories: "350大卡/100g"
+                },
+                comments: [
+                    {user: "美食爱好者", comment: "外皮酥脆，肉质鲜嫩，不愧是国宴级别的美食！", rating: 5},
+                    {user: "旅行家", comment: "在北京全聚德吃的，味道正宗，值得推荐！", rating: 4}
+                ]
+            },
+            {
+                id: 2,
+                name: "四川火锅",
+                region: "west",
+                regionName: "四川",
+                image: "https://images.unsplash.com/photo-1555945877-5f6bcebfadfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "四川火锅以麻、辣、鲜、香著称，锅底选用多种辣椒和花椒，搭配数十种香料熬制而成，是四川饮食文化的代表。",
+                rating: 4.9,
+                details: {
+                    ingredients: ["牛油", "辣椒", "花椒", "豆瓣酱", "香料"],
+                    cookingMethod: "涮煮",
+                    origin: "四川",
+                    calories: "280大卡/100g"
+                },
+                comments: [
+                    {user: "辣味爱好者", comment: "麻辣鲜香，越吃越上瘾！", rating: 5},
+                    {user: "美食家", comment: "正宗的四川火锅，麻味十足，辣得过瘾！", rating: 5}
+                ]
+            },
+            {
+                id: 3,
+                name: "广东早茶",
+                region: "south",
+                regionName: "广东",
+                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "广东早茶是粤菜的重要组成部分，包括虾饺、烧卖、肠粉、凤爪等多种精致点心，是广东人饮食文化的重要体现。",
+                rating: 4.7,
+                details: {
+                    ingredients: ["虾仁", "猪肉", "面粉", "蔬菜", "调味料"],
+                    cookingMethod: "蒸制",
+                    origin: "广东",
+                    calories: "200大卡/100g"
+                },
+                comments: [
+                    {user: "点心控", comment: "虾饺皮薄馅大，凤爪软糯入味，太美味了！", rating: 4},
+                    {user: "美食达人", comment: "正宗的广式早茶，品种丰富，味道一流！", rating: 5}
+                ]
+            },
+            {
+                id: 4,
+                name: "上海小笼包",
+                region: "east",
+                regionName: "上海",
+                image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "上海小笼包以皮薄、馅大、汁多、味鲜而闻名，制作工艺讲究，吃时需小心咬破外皮，先吸汤汁再食。",
+                rating: 4.6,
+                details: {
+                    ingredients: ["猪肉", "面粉", "肉皮冻", "姜末", "调味料"],
+                    cookingMethod: "蒸制",
+                    origin: "上海",
+                    calories: "180大卡/100g"
+                },
+                comments: [
+                    {user: "包子爱好者", comment: "汤汁鲜美，皮薄馅大，一口一个太满足了！", rating: 4},
+                    {user: "上海本地人", comment: "这才是正宗的小笼包，汤汁浓郁，味道鲜美！", rating: 5}
+                ]
+            },
+            {
+                id: 5,
+                name: "西安肉夹馍",
+                region: "central",
+                regionName: "陕西",
+                image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80",
+                description: "肉夹馍是陕西著名小吃，将腊汁肉切碎夹入烤制好的白吉馍中，肉香馍脆，肥而不腻，回味无穷。",
+                rating: 4.5,
+                details: {
+                    ingredients: ["猪肉", "面粉", "香料", "腊汁", "调味料"],
+                    cookingMethod: "烤制",
+                    origin: "陕西",
+                    calories: "320大卡/100g"
+                },
+                comments: [
+                    {user: "面食爱好者", comment: "馍香肉烂，肥而不腻，太香了！", rating: 4},
+                    {user: "西安游客", comment: "在回民街吃的，味道正宗，回味无穷！", rating: 5}
+                ]
+            },
+            {
+                id: 6,
+                name: "云南过桥米线",
+                region: "south",
+                regionName: "云南",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "过桥米线是云南特色小吃，汤用大骨、老母鸡、云南宣威火腿等熬制而成，吃时将生肉片、蔬菜等放入滚烫的汤中烫熟。",
+                rating: 4.7,
+                details: {
+                    ingredients: ["米线", "鸡汤", "肉片", "蔬菜", "火腿"],
+                    cookingMethod: "烫煮",
+                    origin: "云南",
+                    calories: "250大卡/100g"
+                },
+                comments: [
+                    {user: "米线控", comment: "汤鲜味美，米线爽滑，营养丰富！", rating: 5},
+                    {user: "云南本地人", comment: "这才是正宗的过桥米线，汤鲜料足！", rating: 4}
+                ]
+            },
+            // 新增美食
+            {
+                id: 7,
+                name: "杭州西湖醋鱼",
+                region: "east",
+                regionName: "浙江",
+                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "西湖醋鱼是杭州传统名菜，选用西湖草鱼，配以醋、糖、姜等调料，酸甜可口，鱼肉鲜嫩。",
+                rating: 4.6,
+                details: {
+                    ingredients: ["草鱼", "醋", "糖", "姜", "料酒"],
+                    cookingMethod: "蒸煮",
+                    origin: "浙江杭州",
+                    calories: "180大卡/100g"
+                },
+                comments: [
+                    {user: "江浙菜爱好者", comment: "酸甜适中，鱼肉鲜嫩，很有特色！", rating: 4},
+                    {user: "杭州游客", comment: "在楼外楼吃的，味道正宗，不愧是杭州名菜！", rating: 5}
+                ]
+            },
+            {
+                id: 8,
+                name: "新疆大盘鸡",
+                region: "west",
+                regionName: "新疆",
+                image: "https://images.unsplash.com/photo-1555945877-5f6bcebfadfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "新疆大盘鸡是新疆特色菜，鸡肉鲜嫩，土豆软糯，配以宽面，味道浓郁，分量十足。",
+                rating: 4.8,
+                details: {
+                    ingredients: ["鸡肉", "土豆", "辣椒", "宽面", "香料"],
+                    cookingMethod: "炖煮",
+                    origin: "新疆",
+                    calories: "280大卡/100g"
+                },
+                comments: [
+                    {user: "西北菜爱好者", comment: "鸡肉鲜嫩，土豆入味，宽面吸满汤汁，太香了！", rating: 5},
+                    {user: "新疆本地人", comment: "这才是正宗的大盘鸡，味道浓郁，分量十足！", rating: 5}
+                ]
+            },
+            {
+                id: 9,
+                name: "湖南剁椒鱼头",
+                region: "central",
+                regionName: "湖南",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "剁椒鱼头是湖南名菜，选用新鲜鱼头，配以特制剁椒，鲜辣开胃，鱼肉鲜嫩，汤汁浓郁。",
+                rating: 4.7,
+                details: {
+                    ingredients: ["鱼头", "剁椒", "姜蒜", "料酒", "调味料"],
+                    cookingMethod: "蒸制",
+                    origin: "湖南",
+                    calories: "220大卡/100g"
+                },
+                comments: [
+                    {user: "辣味爱好者", comment: "鲜辣开胃，鱼肉鲜嫩，剁椒味道很正宗！", rating: 5},
+                    {user: "湖南人", comment: "家乡的味道，每次吃都想起小时候！", rating: 5}
+                ]
+            },
+            {
+                id: 10,
+                name: "福建佛跳墙",
+                region: "east",
+                regionName: "福建",
+                image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "佛跳墙是福建名菜，选用鲍鱼、海参、鱼翅等高档食材，文火慢炖，汤汁浓郁，营养丰富。",
+                rating: 4.9,
+                details: {
+                    ingredients: ["鲍鱼", "海参", "鱼翅", "花菇", "高汤"],
+                    cookingMethod: "炖煮",
+                    origin: "福建",
+                    calories: "350大卡/100g"
+                },
+                comments: [
+                    {user: "美食家", comment: "食材丰富，汤汁浓郁，不愧是国宴级别的菜品！", rating: 5},
+                    {user: "福建人", comment: "正宗的佛跳墙，味道鲜美，营养丰富！", rating: 5}
+                ]
+            },
+            {
+                id: 11,
+                name: "东北锅包肉",
+                region: "north",
+                regionName: "东北",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "锅包肉是东北名菜，外酥里嫩，酸甜可口，色泽金黄，是东北菜的代表作之一。",
+                rating: 4.6,
+                details: {
+                    ingredients: ["猪里脊", "淀粉", "糖醋汁", "胡萝卜丝", "葱姜"],
+                    cookingMethod: "炸制",
+                    origin: "东北",
+                    calories: "300大卡/100g"
+                },
+                comments: [
+                    {user: "东北菜爱好者", comment: "外酥里嫩，酸甜可口，很下饭！", rating: 4},
+                    {user: "东北人", comment: "家乡的味道，每次吃都觉得很亲切！", rating: 5}
+                ]
+            },
+            {
+                id: 12,
+                name: "重庆小面",
+                region: "west",
+                regionName: "重庆",
+                image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "重庆小面是重庆特色面食，面条劲道，汤料麻辣鲜香，配以各种佐料，味道独特。",
+                rating: 4.7,
+                details: {
+                    ingredients: ["面条", "辣椒油", "花椒", "芝麻酱", "葱花"],
+                    cookingMethod: "煮制",
+                    origin: "重庆",
+                    calories: "280大卡/100g"
+                },
+                comments: [
+                    {user: "面食控", comment: "麻辣鲜香，面条劲道，很过瘾！", rating: 5},
+                    {user: "重庆人", comment: "这才是正宗的重庆小面，麻辣味十足！", rating: 5}
+                ]
+            },
+            {
+                id: 13,
+                name: "江苏盐水鸭",
+                region: "east",
+                regionName: "江苏",
+                image: "https://images.unsplash.com/photo-1555945877-5f6bcebfadfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "盐水鸭是南京传统名菜，鸭肉鲜嫩，咸香适中，皮白肉红，是江苏菜的代表作。",
+                rating: 4.5,
+                details: {
+                    ingredients: ["鸭子", "盐", "花椒", "八角", "料酒"],
+                    cookingMethod: "卤制",
+                    origin: "江苏南京",
+                    calories: "240大卡/100g"
+                },
+                comments: [
+                    {user: "江浙菜爱好者", comment: "鸭肉鲜嫩，咸香适中，很下饭！", rating: 4},
+                    {user: "南京人", comment: "正宗的盐水鸭，皮白肉红，味道鲜美！", rating: 5}
+                ]
+            },
+            {
+                id: 14,
+                name: "山西刀削面",
+                region: "north",
+                regionName: "山西",
+                image: "https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80",
+                description: "刀削面是山西特色面食，面条宽厚，口感劲道，配以各种浇头，味道鲜美。",
+                rating: 4.6,
+                details: {
+                    ingredients: ["面粉", "水", "浇头", "调味料"],
+                    cookingMethod: "削制",
+                    origin: "山西",
+                    calories: "260大卡/100g"
+                },
+                comments: [
+                    {user: "面食爱好者", comment: "面条劲道，浇头丰富，很有特色！", rating: 4},
+                    {user: "山西人", comment: "家乡的味道，刀削面技术很考验功夫！", rating: 5}
+                ]
+            },
+            {
+                id: 15,
+                name: "海南文昌鸡",
+                region: "south",
+                regionName: "海南",
+                image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                description: "文昌鸡是海南名菜，鸡肉鲜嫩，皮薄骨酥，配以特制蘸料，味道鲜美，营养丰富。",
+                rating: 4.7,
+                details: {
+                    ingredients: ["文昌鸡", "姜蒜", "蘸料", "调味料"],
+                    cookingMethod: "白切",
+                    origin: "海南",
+                    calories: "200大卡/100g"
+                },
+                comments: [
+                    {user: "海南游客", comment: "鸡肉鲜嫩，蘸料独特，很有海南特色！", rating: 5},
+                    {user: "海南人", comment: "这才是正宗的文昌鸡，皮薄肉嫩！", rating: 5}
+                ]
+            }
+        ];
+
+        // DOM元素
+        const foodGrid = document.getElementById('foodGrid');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const regionButtons = document.querySelectorAll('.region-btn');
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            displayFoods(foods);
+            setupEventListeners();
+        });
+
+        // 显示美食卡片
+        function displayFoods(foodsToShow) {
+            foodGrid.innerHTML = '';
+            
+            foodsToShow.forEach(food => {
+                const foodCard = createFoodCard(food);
+                foodGrid.appendChild(foodCard);
+            });
+        }
+
+        // 创建美食卡片
+        function createFoodCard(food) {
+            const card = document.createElement('div');
+            card.className = 'food-card';
+            card.innerHTML = `
+                <img class="card-image" src="${food.image}" alt="${food.name}">
+                <div class="card-content">
+                    <div class="card-title">
+                        <span>${food.name}</span>
+                        <div class="card-region">${food.regionName}</div>
+                    </div>
+                    <p class="card-description">${food.description}</p>
+                    <div class="card-footer">
+                        <div class="card-rating">
+                            <i class="fas fa-star"></i> ${food.rating}
+                        </div>
+                        <button class="card-btn" onclick="viewFoodDetail(${food.id})">查看详情</button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        // 设置事件监听
+        function setupEventListeners() {
+            // 区域筛选
+            regionButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const region = this.getAttribute('data-region');
+                    filterFoodsByRegion(region);
+                    
+                    // 更新活动按钮
+                    regionButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // 搜索功能
+            searchBtn.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+        }
+
+        // 按区域筛选美食
+        function filterFoodsByRegion(region) {
+            let filteredFoods = foods;
+            
+            if (region !== 'all') {
+                filteredFoods = foods.filter(food => food.region === region);
+            }
+            
+            displayFoods(filteredFoods);
+        }
+
+        // 搜索功能
+        function handleSearch() {
+            const query = searchInput.value.trim().toLowerCase();
+            
+            if (query === '') {
+                displayFoods(foods);
+                return;
+            }
+            
+            const filteredFoods = foods.filter(food => 
+                food.name.toLowerCase().includes(query) ||
+                food.regionName.toLowerCase().includes(query) ||
+                food.description.toLowerCase().includes(query)
+            );
+            
+            displayFoods(filteredFoods);
+        }
+
+        // 查看美食详情
+        function viewFoodDetail(foodId) {
+            window.location.href = `detail.html?id=${foodId}`;
+        }
+    </script>
+</body>
+</html>
